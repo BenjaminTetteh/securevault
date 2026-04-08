@@ -15,3 +15,10 @@ __pycache__/
 
 # VS Code settings
 .vscode/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Elastic Beanstalk config
+.elasticbeanstalk/
