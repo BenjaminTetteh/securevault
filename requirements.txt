@@ -1,3 +1,4 @@
+backports.tarfile==1.2.0
 bandit==1.8.6
 blinker==1.9.0
 boolean.py==5.0
@@ -14,6 +15,7 @@ idna==3.11
 importlib_metadata==8.7.1
 iniconfig==2.1.0
 itsdangerous==2.2.0
+jaraco.context==6.1.1
 Jinja2==3.1.6
 license-expression==30.4.4
 markdown-it-py==3.0.0

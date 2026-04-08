@@ -1,11 +1,18 @@
 # Use official lightweight Python image
-FROM python:3.9-slim
+FROM python:3.9-slim-bookworm
 
 # Set working directory inside the container
 WORKDIR /app
 
+# Update OS packages to get latest security patches
+RUN apt-get update && apt-get upgrade -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Copy dependency list first (for layer caching)
 COPY requirements.txt .
+
+RUN pip install --no-cache-dir --timeout=120 --upgrade pip wheel
+RUN pip install --no-cache-dir --timeout=120 --upgrade pip wheel "jaraco.context>=6.1.0"
+RUN pip install --no-cache-dir --timeout=120 -r requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir --timeout=120 -r requirements.txt
