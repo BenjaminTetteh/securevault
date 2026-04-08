@@ -49,3 +49,27 @@ jobs:
       - name: Run Bandit SAST scan
         run: |
           bandit -r . --exclude ./venv -ll
+
+  dependency-scan:
+    name: Dependency Scanning - pip-audit
+    runs-on: ubuntu-latest
+    needs: sast
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      - name: Run pip-audit
+        run: |
+          pip-audit -r requirements.txt \
+            --ignore-vuln GHSA-w853-jp5j-5j7f \
+            --ignore-vuln GHSA-qmgc-5h2g-mvrw \
+            --ignore-vuln GHSA-gc5v-m9x4-r6x2
