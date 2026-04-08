@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureVault — Secrets Checker</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 60px auto; padding: 0 20px; background: #0f1117; color: #e0e0e0; }
+    h1 { color: #00d4aa; }
+    p.subtitle { color: #888; }
+    textarea { width: 100%; height: 200px; background: #1e2130; color: #e0e0e0; border: 1px solid #333; border-radius: 8px; padding: 12px; font-size: 14px; }
+    button { margin-top: 12px; padding: 12px 28px; background: #00d4aa; color: #0f1117; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    button:hover { background: #00b894; }
+    .results { margin-top: 32px; }
+    .finding { background: #1e2130; border-left: 4px solid #00d4aa; padding: 14px 18px; margin-bottom: 12px; border-radius: 6px; }
+    .clean { color: #00d4aa; font-size: 18px; margin-top: 24px; }
+    .risk { font-size: 13px; color: #aaa; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>🔐 SecureVault</h1>
+  <p class="subtitle">Paste any text, config file, or code snippet below to scan for exposed secrets.</p>
+
+  <form method="POST">
+    <textarea name="text" placeholder="Paste your .env file, config, or code here..."></textarea><br>
+    <button type="submit">Scan for Secrets</button>
+  </form>
+
+  {% if scanned %}
+  <div class="results">
+    {% if results %}
+      <h2>⚠️ Findings ({{ results|length }} issue{{ 's' if results|length > 1 else '' }} found)</h2>
+      {% for r in results %}
+      <div class="finding">
+        <strong>{{ r.type }}</strong> — {{ r.count }} match{{ 'es' if r.count > 1 else '' }}
+        <div class="risk">Risk Level: {{ r.risk }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="clean">✅ No secrets detected. Looks clean!</p>
+    {% endif %}
+  </div>
+  {% endif %}
+</body>
+</html>
