@@ -28,3 +28,24 @@ jobs:
       - name: Run tests
         run: |
           pytest test_app.py -v
+
+  sast:
+    name: SAST - Bandit
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Run Bandit SAST scan
+        run: |
+          bandit -r . --exclude ./venv -ll
